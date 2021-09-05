@@ -26,7 +26,6 @@ const createWeek = () => {
         wednesday: [],
         friday: []
     };
-    console.log(week);
     Object.keys(week).forEach(day => {
         switch (day) {
             case 'monday':
@@ -55,34 +54,50 @@ const createWeek = () => {
     return (week);
 };
 
+const createHeader = () => {
+    document.querySelector('table').innerHTML = '<thead><tr class="table-dark"><th class="col-2">Day</th><th class="col-6">Exercises</th><th>Muscle</th><th>Reps</th></tr>';
+}
+
+
 const addTable = () => {
     let week = createWeek();
     console.log(week)
     if (document.querySelector('tbody')) {
         document.querySelector('tbody').remove();
     }
-    document.querySelector('table').innerHTML = '<tr class="table-primary"><th class="col-3">Day</th><th>Exercises</th></tr>';
+    createHeader();
+    let tbody = document.createElement('tbody');
+    document.querySelector('table').appendChild(tbody);
 
     Object.keys(week).map(day => {
         let parentRow = document.createElement('tr');
 
         week[day].forEach((exercise, i) => {
-            let childRow = document.createElement('tr');
-            let dayCell = document.createElement('th');
+            let row = document.createElement('tr');
+            let dayData = document.createElement('td');
 
             if (i == 0) {
-                dayCell.innerHTML = _.capitalize(day);
-                childRow.setAttribute('class', 'table-secondary')
+                dayData.innerHTML = _.capitalize(day);
+                row.setAttribute('class', 'table-secondary')
             }
-            childRow.appendChild(dayCell);
+            row.appendChild(dayData);
 
 
-            let exerciseCell = document.createElement('td');
-            exerciseCell.innerHTML = _.capitalize(exercise);
-            childRow.appendChild(exerciseCell);
-            // parentRow.appendChild(childRow);
+            let exerciseData = document.createElement('td');
+            exerciseData.innerHTML = _.capitalize(exercise);
+            row.appendChild(exerciseData);
 
-            document.querySelector('tbody').appendChild(childRow)
+            let muscleData = document.createElement('td');
+            muscleData.innerHTML = 'Chest';
+            row.appendChild(muscleData);
+
+            let repData = document.createElement('td');
+            repData.innerHTML = '3x15';
+            row.appendChild(repData);
+
+
+
+            tbody.appendChild(row)
         })
 
     })
